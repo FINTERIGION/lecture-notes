@@ -46,6 +46,9 @@
 
 #let def(body, name: "") = statement(body, "definition", [Definition], name)
 #let thm(body, name: "") = statement(body, "theorem", [Theorem], name)
+#let lem(body, name: "") = statement(body, "lemma", [Lemma], name)
+#let cor(body, name: "") = statement(body, "corollary", [Corollary], name)
+#let prop(body, name: "") = statement(body, "proposition", [Proposition], name)
 
 #let re(body) = {
   block(
@@ -60,15 +63,30 @@
   ]
 }
 
+#let eg(body) = {
+  block(
+    fill: rgb("#F3F8EA"),
+    inset: 8pt,
+    radius: 4pt,
+    breakable: true,
+    width: 100%,
+  )[
+    *Example.*\
+    #body
+  ]
+}
+
 #let pf(body) = {[
   *Proof.*\
   #body
   $qed$
+  
 ]}
 
 #let note(
   title: "",
-  author: "",
+  author: "Yuchao Feng",
+  email: "fengyuchao@sjtu.edu.cn",
   body,
 ) = {
   set document(title: title, author: author)
@@ -96,14 +114,24 @@
   show heading.where(level: 1): it => {
     counter(figure.where(kind: "definition")).update((0,))
     counter(figure.where(kind: "theorem")).update((0,))
+    counter(figure.where(kind: "lemma")).update((0,))
+    counter(figure.where(kind: "corollary")).update((0,))
+    counter(figure.where(kind: "proposition")).update((0,))
     it
   }
   show figure.where(kind: "definition"): it => framed(it, luma(240))
   show figure.where(kind: "theorem"): it => framed(it, rgb("#DFF1F1"))
+  show figure.where(kind: "lemma"): it => framed(it, rgb("#F8F1D8"))
+  show figure.where(kind: "corollary"): it => framed(it, rgb("#DFF1F1"))
+  show figure.where(kind: "proposition"): it => framed(it, rgb("#F3E8F8"))
 
   align(center, text(16pt)[*#title*])
   v(0.35em)
   align(center, author)
+  if email != "" {
+    v(0.15em)
+    align(center, text(size: 10.5pt, fill: luma(80), link("mailto:" + email)[#email]))
+  }
   v(1.3em)
   outline(depth: 2)
   v(1.5em)
