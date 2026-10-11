@@ -1,2 +1,5 @@
+.cursor/
+
+cv/
 assignments/*
 !assignments/template.typ

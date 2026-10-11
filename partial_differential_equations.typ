@@ -79,39 +79,110 @@
   $ overline(a)_(22) = a_11 eta_x^2 + 2 a_12 eta_x eta_y + a_22 eta_y^2, $
   $ overline(b)_1 = a_11 xi_(x x) + 2 a_12 xi_(x y) + a_22 xi_(y y) + b_1 xi_x + b_2 xi_y, $
   $ overline(b)_2 = a_11 eta_(x x) + 2 a_12 eta_(x y) + a_22 eta_(y y) + b_1 eta_x + b_2 eta_y. $
+  There is $overline(Delta) = |J|^2 Delta$ with $J = mat(xi_x, xi_y; eta_x, eta_y)$, so the type is invariant.
   ]
   #lem[
     If $phi$ solves the principal equation above and $phi_x^2 + phi_y^2 != 0$, then
     $ a_11 (dif y)^2 - 2 a_12 dif x dif y + a_22 (dif x)^2 = 0. $
   ]
-  #pf[
-    Along $phi = C$ one has $phi_x dif x + phi_y dif y = 0$. The slope is $dif y \/ dif x = -phi_x \/ phi_y$. Then substitute $phi_x \/ phi_y = -dif y \/ dif x$ into the equation.
-  ]
   #prop(name:"Canonical Forms for Constant Coefficients")[
     Suppose $a_(i j)$, $b_j$, and $c$ are constant. A linear change of $(x, y)$ puts the equation in one of the following forms, with constant coefficients on the right-hand side.
-    - Hyperbolic, first canonical form: $u_(xi eta) = A u_xi + B u_eta + C u + D$.
-    - Hyperbolic, second canonical form: $u_(r r) - u_(s s) = A^* u_r + B^* u_s + C^* u + D^*$.
+    - Hyperbolic (first canonical form): $u_(xi eta) = A u_xi + B u_eta + C u + D$.
+    - Hyperbolic (second canonical form): $u_(r r) - u_(s s) = A u_r + B u_s + C u + D$.
     - Parabolic: $u_(eta eta) = A u_xi + B u_eta + C u + D$.
     - Elliptic: $u_(r r) + u_(s s) = A u_r + B u_s + C u + D$.
   ]
   #eg[
-    The equation $4 u_(x x) + 5 u_(x y) + u_(y y) + u_x + u_y = 2$ has  $Delta = (5 \/ 2)^2 - 4 > 0$, so it is hyperbolic. The characteristic equation $4 (dif y)^2 - 5 dif x dif y + (dif x)^2 = 0$ factors as $(4 dif y - dif x)(dif y - dif x) = 0$, with characteristic lines $4 y - x = C_1$ and $y - x = C_2$. Set $xi = 4 y - x$ and $eta = y - x$. Then $overline(a)_(11) = overline(a)_(22) = 0$, $overline(a)_(12) = -9 \/ 2$, $overline(b)_1 = 3$, and $overline(b)_2 = 0$, so $-9 u_(xi eta) + 3 u_xi = 2$, that is
+    The equation $4 u_(x x) + 5 u_(x y) + u_(y y) + u_x + u_y = 2$ has  $Delta = (5 / 2)^2 - 4 > 0$, so it is hyperbolic. The characteristic equation $4 (dif y)^2 - 5 dif x dif y + (dif x)^2 = 0$ factors as $(4 dif y - dif x)(dif y - dif x) = 0$, with characteristic lines $4 y - x = C_1$ and $y - x = C_2$. Set $xi = 4 y - x$ and $eta = y - x$. Then $overline(a)_(11) = overline(a)_(22) = 0$, $overline(a)_(12) = -9 / 2$, $overline(b)_1 = 3$, and $overline(b)_2 = 0$, so $-9 u_(xi eta) + 3 u_xi = 2$, that is
     $ u_(xi eta) = frac(1, 3) u_xi - frac(2, 9). $
-    Writing $w = u_xi$ gives $w_eta - w \/ 3 = -2 \/ 9$. Multiplication by $e^(-eta \/ 3)$ produces $w = 2 \/ 3 + F(xi) e^(eta \/ 3)$, and one further integration gives
+    Writing $w = u_xi$ gives $w_eta - w / 3 = -2 / 9$. Multiplication by $e^(-eta / 3)$ produces $w = 2 / 3 + F(xi) e^(eta / 3)$, and one further integration gives
     $ u(x, y) = frac(2, 3) (4 y - x) + f(4 y - x) e^((y - x) / 3) + g(y - x). $
   ]
   #eg[
     The equation $u_(x x) - 4 u_(x y) + 4 u_(y y) = e^y$ has $Delta = 2^2 - 4 = 0$, so it is parabolic. The characteristic equation $(dif y + 2 dif x)^2 = 0$ has the lines $y + 2 x = C$. Set $xi = y + 2 x$ and $eta = y$. Then $overline(a)_(11) = overline(a)_(12) = 0$, $overline(a)_(22) = 4$, and the lower-order coefficients coming from $xi$ and $eta$ vanish, so
     $ u_(eta eta) = frac(1, 4) e^eta. $
-    Two integrations give $u = (1 \/ 4) e^eta + eta f(xi) + g(xi)$, hence
+    Two integrations give $u = 1/4 e^eta + eta f(xi) + g(xi)$, hence
     $ u(x, y) = frac(1, 4) e^y + y f(y + 2 x) + g(y + 2 x). $
   ]
   #eg[
-    The equation $u_(x x) + u_(x y) + u_(y y) + u_x = 0$ has $a_12 = 1 \/ 2$ and $Delta = (1 \/ 2)^2 - 1 < 0$, so it is elliptic. The characteristic equation $dif y^2 - dif x dif y + dif x^2 = 0$ has roots
-    $ lambda_(1\, 2) = frac(1, 2) plus.minus i frac(sqrt(3), 2). $
-    Set $xi = y - x \/ 2$ and $eta = -(sqrt(3) \/ 2) x$. Then
+    The equation $u_(x x) + u_(x y) + u_(y y) + u_x = 0$ has $a_12 = 1 / 2$ and $Delta = (1 / 2)^2 - 1 < 0$, so it is elliptic. The characteristic equation $dif y^2 - dif x dif y + dif x^2 = 0$ has roots
+    $ (dif y)/(dif x) = frac(1, 2) plus.minus frac(sqrt(3), 2)i. $
+    Set $xi = y - x / 2$ and $eta = -sqrt(3) / 2 x$. Then
     $ overline(a)_(11) = overline(a)_(22) = frac(3, 4), quad overline(a)_(12) = 0, quad overline(b)_1 = -frac(1, 2), quad overline(b)_2 = -frac(sqrt(3), 2), $
     and the equation becomes
     $ u_(xi xi) + u_(eta eta) = frac(2, 3) u_xi + frac(2, sqrt(3)) u_eta. $
+  ]
+  #eg[
+    The equation $y^2 u_(x x) - x^2 u_(y y) = 0$ has $Delta = x^2 y^2$, so it is hyperbolic off the coordinate axes. The characteristic equation $y^2 (dif y)^2 - x^2 (dif x)^2 = 0$ factors as $(y dif y + x dif x)(y dif y - x dif x) = 0$, with integrals
+    $ frac(1, 2) y^2 - frac(1, 2) x^2 = C_1, quad frac(1, 2) y^2 + frac(1, 2) x^2 = C_2. $
+    Set $xi = (y^2 - x^2) / 2$ and $eta = (y^2 + x^2) / 2$. Then, wherever $|xi| != |eta|$,
+    $ u_(xi eta) = frac(eta, 2 (xi^2 - eta^2)) u_xi - frac(xi, 2 (xi^2 - eta^2)) u_eta. $
+  ]
+  #eg[
+    The equation $x^2 u_(x x) + 2 x y u_(x y) + y^2 u_(y y) + x y u_x + y^2 u_y = 0$ has $Delta = 0$, so it is parabolic. The characteristic equation $(x dif y - y dif x)^2 = 0$ has the lines $y / x = C$. Set $xi = y / x$ and $eta = y$. Then $u_(eta eta) = - u_eta$. Writing $w = u_eta$ and integrating twice gives
+    $ u(x, y) = - e^(-y) f(y / x) + g(y / x). $
+  ]
+  #eg[
+    The equation $u_(x x) + x^2 u_(y y) = 0$ has $Delta = - x^2$, so it is elliptic off the axis $x = 0$. The characteristic equation $((dif y) / (dif x))^2 = - x^2$ has complex integrals $2 y plus.minus i x^2 = C$. Set $xi = 2 y$ and $eta = x^2$. Then, for $eta != 0$,
+    $ u_(xi xi) + u_(eta eta) = - frac(1, 2 eta) u_eta. $
+  ]
+  #prop(name: "Reduced Canonical Forms")[
+    For constant coefficients, first-order terms may be removed by the exponential substitution $u = v e^(a r + b s)$. Starting from the first canonical forms and choosing the right $a$ and $b$, this produces the reduced forms
+    $ v_(r s) = E v + F, quad v_(r r) plus.minus v_(s s) = E v + F. $
+  ]
+  #def(name: "Second-Order Linear Operator")[
+    For $x = (x_1, dots.c, x_n)$ and a symmetric matrix $A = (a_(i j))$,
+    $ L u = sum_(i, j = 1)^n a_(i j) u_(x_i x_j) + sum_(j = 1)^n b_j u_(x_j) + c u = f. $
+    The type at a point is read from the eigenvalues $lambda_1, dots.c, lambda_n$ of $A$.
+  ]
+  #def(name: "Types in Several Variables")[
+    Let $lambda_1, dots.c, lambda_n$ be the eigenvalues of $A$.
+    - Hyperbolic: every $lambda_i$ is nonzero, $n - 1$ of them have the same sign, and one has the opposite sign.
+    - Parabolic: exactly one eigenvalue is zero and the others have the same sign.
+    - Elliptic: every $lambda_i$ is nonzero and all have the same sign.
+    - Ultrahyperbolic: for $n >= 4$, every $lambda_i$ is nonzero, at least two are positive, and at least two are negative.
+    - Ultraparabolic: more than one eigenvalue is zero and the remaining eigenvalues have the same sign.
+  ]
+
+  == Characteristics
+
+  #def(name: "Characteristic Direction")[
+    At a fixed point $x$, a direction $bold(l) = (alpha_1, dots.c, alpha_n)$ is a characteristic direction if it satisfies the characteristic equation
+    $ sum_(i, j = 1)^n a_(i j)(x) alpha_i alpha_j = 0. $
+  ]
+  #def(name: "Characteristic Surface")[
+    The hypersurface $S:phi(x)=0$ is a characteristic surface if at every point of $S$ the normal $(phi_(x_1), dots.c, phi_(x_n))$ is a characteristic direction, namely
+    $ sum_(i, j = 1)^n a_(i j)(x) phi_(x_i) phi_(x_j) = 0. $
+  ]
+  #re[
+    To find characteristic surfaces, solve the first-order equation above for $phi$. When $n = 2$, along $phi = C$ one has $phi_x dif x + phi_y dif y = 0$, hence $dif y \/ dif x = - phi_x \/ phi_y$. Substituting the normal $(phi_x, phi_y)$ into the characteristic equation gives the ODE
+    $ a_11 (dif y)^2 - 2 a_12 dif x dif y + a_22 (dif x)^2 = 0 $
+    used to reduce the two-variable equation to canonical form. In two variables a characteristic surface is a characteristic curve.
+  ]
+  #def(name: "Characteristic Plane")[
+    A characteristic plane is an $(n-1)$-dimensional hyperplane whose normal is a characteristic direction. Through a point $overline(x)$ with characteristic direction $(alpha_1, dots.c, alpha_n)$ it is
+    $ sum_(i = 1)^n alpha_i (x_i - overline(x)_i) = 0. $
+  ]
+  #def(name: "Characteristic Cone")[
+    The characteristic cone at a fixed point $overline(x)$ is the cone formed by the envelope of all characteristic planes through $overline(x)$.
+  ]
+  #re[
+    If the characteristic planes through $overline(x)$ form a family $F(x, lambda) = 0$, the envelope is obtained by eliminating the parameters $lambda$ from $F = 0$ and the equations obtained by differentiating $F$ with respect to each parameter. Away from the vertex, the cone is itself a characteristic surface.
+  ]
+  #eg[
+    For Laplace's equation $Delta u = 0$, the characteristic equation is $alpha_1^2 + dots.c + alpha_n^2 = 0$. There is no real characteristic direction, hence no real characteristic surface.
+  ]
+  #eg[
+    For the heat equation $u_t = a^2 (u_(x x) + u_(y y) + u_(z z))$, write $bold(l) = (alpha_0, alpha_1, alpha_2, alpha_3)$ with $|bold(l)| = 1$. The principal part involves only the spatial second derivatives, so the characteristic equation is $alpha_1^2 + alpha_2^2 + alpha_3^2 = 0$. Together with $|bold(l)| = 1$ this forces $alpha_0 = plus.minus 1$ and $alpha_1 = alpha_2 = alpha_3 = 0$. The characteristic directions are $bold(l) = (plus.minus 1, 0, 0, 0)$, and the characteristic planes are $t = "const"$. Through a given point there is only one such plane, so the characteristic cone degenerates to that plane.
+  ]
+  #eg[
+    For the wave equation $u_(t t) = a^2 (u_(x x) + u_(y y))$, the characteristic equation $alpha_0^2 = a^2 (alpha_1^2 + alpha_2^2)$ together with $|bold(l)| = 1$ gives
+    $ alpha_0 = plus.minus frac(a, sqrt(1 + a^2)), quad alpha_1^2 + alpha_2^2 = frac(1, 1 + a^2). $
+    Parameterizing the spatial part yields the characteristic directions
+    $ bold(l) = lr((plus.minus frac(a, sqrt(1 + a^2)), frac(cos phi, sqrt(1 + a^2)), frac(sin phi, sqrt(1 + a^2)))). $
+    If $theta$ is the angle between $bold(l)$ and the $t$-axis, then $tan theta = 1 \/ a$. Scaling the normal, the characteristic planes through $(t_0, x_0, y_0)$ are
+    $ a (t - t_0) + cos phi dot (x - x_0) + sin phi dot (y - y_0) = 0. $
+    Differentiating with respect to $phi$ yields $- sin phi dot (x - x_0) + cos phi dot (y - y_0) = 0$. Squaring and adding these two equations eliminates $phi$ and produces the characteristic cone
+    $ (x - x_0)^2 + (y - y_0)^2 = a^2 (t - t_0)^2. $
   ]
 ]
