@@ -83,6 +83,11 @@
   
 ]}
 
+#let sol(body) = {[
+  *Solution.*\
+  #body
+]}
+
 #let note(
   title: "",
   author: "Yuchao Feng",
