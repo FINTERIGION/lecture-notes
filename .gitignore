@@ -1,4 +1,6 @@
 .cursor/
+.qoder/
+.claude/
 
 cv/
 assignments/*

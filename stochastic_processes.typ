@@ -219,7 +219,7 @@
     Passengers arrive at a stop as a homogeneous Poisson process of intensity $lambda$ per minute. A bus clears the queue every $10$ minutes. Let $tau_k$ be the arrival time of the $k$-th passenger during a ten-minute cycle, and let $X = sum_(k=1)^(N_10) (10 - tau_k)$ be the total waiting time in that cycle. Then 
     $ E(X) = E(E(X | N_10)) = E(5 N_10) = 50 lambda. $
   ]
-  == Nonhomogeneous Poisson Process
+  == Other Poisson Processes
   #def(name: "Nonhomogeneous Poisson Process")[
     Let $lambda(t) > 0$ be locally integrable. A counting process ${N_t : t >= 0}$ is a nonhomogeneous Poisson process of intensity $lambda(t)$ if it has independent increments and for every $t >= 0$ and every sufficiently small $h > 0$,
     $ P(N_(t+h) - N_t = 1) = lambda(t) h + o(h), $
@@ -229,5 +229,190 @@
     A counting process is a nonhomogeneous Poisson process of intensity $lambda(t)$ if and only if it has independent increments and
     $ N_t - N_s ~ "Poisson"(m(t) - m(s)), quad 0 <= s < t, $
     where $m(t) = integral_0^t lambda(u) dif u$.
+  ]
+  #def(name: "Compound Poisson Process")[
+    Let ${xi_i : i = 1, 2, ...}$ be i.i.d. random variables, independent of a homogeneous Poisson process ${N_t : t >= 0}$ of intensity $lambda$. The process
+    $ X_t = sum_(i=1)^(N_t) xi_i, $
+    with the empty sum equal to zero, is a compound Poisson process.
+  ]
+  #prop[
+    If ${X_t}$ is compound Poisson as above, with $mu = E(xi_1)$ and $E(xi_1^2) < oo$, then
+    $ E(X_t) = lambda t mu, quad "Var"(X_t) = lambda t E(xi_1^2), $
+    $ R(s, t) = E(X_s X_t) = lambda min(s, t) E(xi_1^2) + lambda^2 s t mu^2, $
+    $ "Cov"(X_s, X_t) = lambda min(s, t) E(xi_1^2). $
+  ]
+  #pf[
+    Conditioning on the count gives $E(X_t | N_t) = N_t mu$, hence $E(X_t) = E(N_t) mu = lambda t mu$.\
+    For the correlation, take $s <= t$. Given $N_s = m$ and $N_t = n$, necessarily $m <= n$, and
+    $ E(X_s X_t | N_s = m, N_t = n) = sum_(i=1)^m sum_(j=1)^n E(xi_i xi_j) = m E(xi_1^2) + (m n - m) mu^2 $
+    $ = m "Var"(xi_1) + m n mu^2. $
+    Therefore
+    $ E(X_s X_t) = E(N_s) "Var"(xi_1) + E(N_s N_t) mu^2. $
+    Independent increments of $N$ yield $E(N_s N_t) = lambda s + lambda^2 s t$, so
+    $ R(s, t) = lambda s "Var"(xi_1) + (lambda s + lambda^2 s t) mu^2 = lambda s E(xi_1^2) + lambda^2 s t mu^2. $
+    The identities for general $s, t$ follow by symmetry. Subtracting $E(X_s) E(X_t)$ leaves the covariance, and the variance is the case $s = t$.
+  ]
+  #def(name: "Conditional Poisson Process")[
+    Let $Lambda$ be a nonnegative random variable with distribution function $F_Lambda$. A counting process ${N_t : t >= 0}$ is a conditional Poisson process with prior $F_Lambda$ if, given $Lambda = lambda$, the process $N$ is a homogeneous Poisson process of intensity $lambda$. Equivalently, for every $s < t$ and every $k = 0, 1, 2, ...$,
+    $ P(N_t - N_s = k | Lambda = lambda) = e^(-lambda (t-s)) (lambda (t-s))^k / k!. $
+  ]
+  #thm(name: "Gamma Prior")[
+    Suppose the prior of $Lambda$ is $Gamma(m_0, lambda_0)$, with density
+    $ f_Lambda (lambda) = (lambda_0^(m_0) / Gamma(m_0)) lambda^(m_0 - 1) e^(-lambda_0 lambda), quad lambda > 0. $
+    Conditionally on $N_1 = x_1$, $N_2 - N_1 = x_2$, $...$, $N_n - N_(n-1) = x_n$, the posterior of $Lambda$ is $Gamma(m_0 + x_1 + ... + x_n, n + lambda_0)$.
+  ]
+  #pf[
+    Independent increments given $Lambda$ yield
+    $ P(N_1 = x_1, ..., N_n - N_(n-1) = x_n | Lambda = lambda) = product_(i=1)^n (e^(-lambda) lambda^(x_i) / x_i!) $
+    which is proportional to $lambda^(x_1 + ... + x_n) e^(-n lambda)$.
+    The posterior density is therefore proportional to
+    $ lambda^(x_1 + ... + x_n) e^(-n lambda) dot lambda^(m_0 - 1) e^(-lambda_0 lambda) = lambda^(m_0 + x_1 + ... + x_n - 1) e^(-(n + lambda_0) lambda), $
+    which is the kernel of $Gamma(m_0 + x_1 + ... + x_n, n + lambda_0)$.
+  ]
+  = Markov Chains
+  == Discrete-Time Markov Chains
+  #def(name: "Discrete-Time Markov Chain")[
+    The process is a discrete-time Markov chain if, whenever $P(X_0 = i_0, ..., X_n = i_n) > 0$,
+    $ P(X_(n+1) = i_(n+1) | X_0 = i_0, ..., X_n = i_n) = P(X_(n+1) = i_(n+1) | X_n = i_n). $
+  ]
+  #prop[
+    The one-step Markov property is equivalent to the same identity at arbitrary times: for every $t_1 < ... < t_n < t_(n+1)$ with $P(X_(t_1) = i_1, ..., X_(t_n) = i_n) > 0$,
+    $ P(X_(t_(n+1)) = i_(n+1) | X_(t_1) = i_1, ..., X_(t_n) = i_n) = P(X_(t_(n+1)) = i_(n+1) | X_(t_n) = i_n). $
+  ]
+  #thm[
+    The following are equivalent to the Markov property.
+    - For every bounded measurable $f$,
+    $ E(f(X_(n+1)) | X_0 = i_0, ..., X_n = i_n) = E(f(X_(n+1)) | X_n = i_n). $
+    - For every $m >= 1$,
+    $ P(X_(n+m) = i_(n+m) | X_0 = i_0, ..., X_n = i_n) = P(X_(n+m) = i_(n+m) | X_n = i_n). $
+    - Write $A$ for a past event ${X_0 in A_0, ..., X_(n-1) in A_(n-1)}$ and $B$ for a future event ${X_(n+1) in A_(n+1), X_(n+2) in A_(n+2), ...}$. Then
+    $ P(B | A, X_n = i_n) = P(B | X_n = i_n). $
+    Equivalently, past and future are conditionally independent given the present:
+    $ P(A inter B | X_n = i_n) = P(A | X_n = i_n) P(B | X_n = i_n). $
+  ]
+  #def(name: "Transition Probability")[
+    The one-step transition probability at time $n$ is
+    $ p_(i j)(n) = P(X_(n+1) = j | X_n = i). $
+    The chain is homogeneous if $p_(i j)(n) = p_(i j)$ is independent of $n$. The matrix $bb(P) = (p_(i j))$ is then the transition matrix.
+  ]
+  #thm[
+    Suppose $X_(n+1) = f(X_n, ξ_(n+1))$ for $n >= 0$, where $ {ξ_n}$ is i.i.d. and independent of $X_0$. Then ${X_n}$ is a homogeneous Markov chain with
+    $ p_(i j) = P(f(i, ξ_1) = j). $
+  ]
+  #pf[
+    The vector $(X_0, ..., X_n)$ is a function of $(X_0, ξ_1, ..., ξ_n)$, hence independent of $ξ_(n+1)$. Therefore
+    $ P(X_(n+1) = j | X_0 = i_0, ..., X_n = i) = P(f(i, ξ_(n+1)) = j) = P(f(i, ξ_1) = j). $
+  ]
+  #eg[
+    _Random walk._ A particle on $ZZ$ starts at $0$ and at each step moves right with probability $p$ and left with probability $q = 1 - p$. If $ξ_k = plus.minus 1$ records the $k$-th step and $X_n = sum_(k=1)^n ξ_k$, then $X_(n+1) = X_n + ξ_(n+1)$, so ${X_n}$ is a homogeneous Markov chain with $p_(i, i+1) = p$ and $p_(i, i-1) = q$.
+  ]
+  #eg[
+    _Gambler's ruin._ The same walk on ${0, 1, ..., b}$, absorbed at the endpoints, is given by $p_(0 0) = p_(b b) = 1$ and $p_(i, i+1) = p$, $p_(i, i-1) = q$ for $0 < i < b$. Equivalently $X_(n+1) = f(X_n, ξ_(n+1))$ with $f(x, y) = x + y$ for $0 < x < b$ and $f(0, y) = 0$, $f(b, y) = b$.
+  ]
+  == Transition Matrix
+  #def(name: "State Distribution")[
+    The distribution of $X_n$ is $π_i (n) = P(X_n = i)$, assembled into the row vector $π(n) = (π_i (n))_(i in S)$. In particular $π(0)$ is the initial distribution.
+  ]
+  #prop[
+    The finite-dimensional distributions are determined by $π(0)$ and $bb(P)$:
+    $ P(X_0 = i_0, ..., X_n = i_n) = π_(i_0)(0) p_(i_0 i_1) dots.c p_(i_(n-1) i_n). $
+  ]
+  #prop[
+    The marginals satisfy $π(n) = π(n-1) bb(P) = π(0) bb(P)^n$.
+  ]
+  #pf[
+    Conditioning on $X_(n-1)$ gives $π_j (n) = sum_i π_i (n-1) p_(i j)$.
+  ]
+  #def(name: "m-Step Transition")[
+    The $m$-step transition probabilities are $p_(i j)^((m)) = P(X_(n+m) = j | X_n = i)$, assembled into the matrix $bb(P)^((m))$. In particular $p_(i j)^((1)) = p_(i j)$ and $p_(i i)^((0)) = 1$, $p_(i j)^((0)) = 0$ for $i != j$.
+  ]
+  #thm(name: "Chapman-Kolmogorov")[
+    For all $i, j in S$ and all $m, n >= 0$,
+    $ p_(i j)^((m+n)) = sum_k p_(i k)^((m)) p_(k j)^((n)). $
+    In matrix form $bb(P)^((m+n)) = bb(P)^((m)) bb(P)^((n))$, hence $bb(P)^((m)) = bb(P)^m$.
+  ]
+  #pf[
+    The Markov property at time $m$ yields
+    $ P(X_(m+n) = j | X_0 = i) = sum_k P(X_m = k | X_0 = i) P(X_(m+n) = j | X_m = k). $
+  ]
+  == Classification of States
+  #def(name: "Communication")[
+    State $i$ leads to $j$, written $i -> j$, if $p_(i j)^((n)) > 0$ for some $n >= 0$. In particular $i -> i$, since $p_(i i)^((0)) = 1$. The states communicate, denoted by $i <-> j$, if $i -> j$ and $j -> i$.
+  ]
+  #prop[
+    Communication satisfies the following properties:
+    - Reflexivity: $i <-> i$
+    - Symmetry: $i <-> j$ if and only if $j <-> i$
+    - Transitivity: $i <-> j$ and $j <-> k$ imply $i <-> k$
+    Therefore communication is an equivalence relation.
+  ]
+  #def(name: "First Passage")[
+    Starting from $X_0 = i$, the first passage time to $j$ is $τ_(i j) = inf{n >= 1: X_n = j}$, with the convention $inf emptyset = +oo$. The first-passage probabilities are
+    $ f_(i j)^((n)) = P(τ_(i j) = n | X_0 = i) = P(X_n = j, X_1 != j, ..., X_(n-1) != j | X_0 = i), $
+    and $f_(i j) = sum_(n=1)^oo f_(i j)^((n)) = P(τ_(i j) < oo | X_0 = i)$. Thus $1 - f_(i j)$ is the probability of never hitting $j$.
+  ]
+  #def(name: "Recurrence and Transience")[
+    State $i$ is recurrent if $f_(i i) = 1$ and transient if $f_(i i) < 1$. If $i$ is recurrent, the mean return time is
+    $ μ_i = E(τ_(i i) | X_0 = i) = sum_(n=1)^oo n f_(i i)^((n)), $
+    and $i$ is positive recurrent if $μ_i < oo$ and null recurrent if $μ_i = oo$.
+  ]
+  #def(name: "Period")[
+    The period of $i$ is $d(i) = gcd{n >= 1: p_(i i)^((n)) > 0}$. The state is aperiodic if $d(i) = 1$ and periodic if $d(i) > 1$. Return to $i$ is possible only at multiples of $d(i)$. An aperiodic positive recurrent state is ergodic.
+  ]
+  #prop[
+    For every $i, j in S$ and $n >= 1$,
+    $ p_(i j)^((n)) = sum_(ell=1)^n f_(i j)^((ell)) p_(j j)^((n-ell)), $
+    while $f_(i j)^((1)) = p_(i j)$ and, for $n >= 2$,
+    $ f_(i j)^((n)) = sum_(k != j) p_(i k) f_(k j)^((n-1)). $
+  ]
+  #thm(name: "Recurrence Criterion")[
+    State $i$ is recurrent if and only if $sum_(n=1)^oo p_(i i)^((n)) = oo$, and transient if and only if $sum_(n=1)^oo p_(i i)^((n)) < oo$.
+  ]
+  #pf[
+    Write $P(z) = sum_(n=0)^oo p_(i i)^((n)) z^n$ and $F(z) = sum_(n=1)^oo f_(i i)^((n)) z^n$ for $0 <= z < 1$, so that $p_(i i)^((0)) = 1$ and $f_(i i)^((0)) = 0$. The first-passage convolution gives, for $n >= 1$,
+    $ p_(i i)^((n)) = sum_(ell=1)^n f_(i i)^((ell)) p_(i i)^((n-ell)). $
+    Multiplying by $z^n$ and summing therefore yields $P(z) - 1 = P(z) F(z)$, hence
+    $ P(z) = 1 / (1 - F(z)). $
+    As $z arrow.t 1$, monotone convergence gives $F(z) arrow.t f_(i i)$ and $P(z) arrow.t sum_(n=0)^oo p_(i i)^((n))$. Thus $f_(i i) = 1$ if and only if $P(1) = oo$.
+  ]
+  #re[
+    The same sum is the expected number of visits:
+    $ sum_(n=1)^oo p_(i i)^((n)) = E(sum_(n=1)^oo I_({X_n = i}) | X_0 = i)=sum_(n=1)^oo E(I_({X_n = i})|X_0 = i). $
+  ]
+  #thm(name: "Weak Ergodic Theorem")[
+    The Cesàro matrices
+    $ bb(L)^((n)) = 1/(n+1) sum_(k=0)^n bb(P)^k $
+    converge to a limit $bb(L)$ satisfying
+    $ bb(P) bb(L) = bb(L) bb(P) = bb(L) = bb(L)^2. $
+  ]
+  #lem(name: "Hardy-Littlewood")[
+    Let $a_n >= 0$ and let $A(z) = sum_(n=0)^oo a_n z^n$ converge for $0 <= z < 1$. Then
+    $ lim_(n -> oo) 1/(n+1) sum_(k=0)^n a_k = lim_(z -> 1^-) (1-z) A(z), $
+    whenever either side exists in $[0, +oo]$.
+  ]
+  #thm[
+    If $j$ is recurrent, then for every $i in S$,
+    $ lim_(n -> oo) 1/(n+1) sum_(k=0)^n p_(i j)^((k)) = f_(i j) / μ_j, $
+    with the convention $1/μ_j = 0$ when $μ_j = oo$.
+  ]
+  #pf[
+    Let $P_(i j)(z) = sum_(n=0)^oo p_(i j)^((n)) z^n$ and $F_(i j)(z) = sum_(n=1)^oo f_(i j)^((n)) z^n$. The first-passage convolution yields $P_(i j)(z) = F_(i j)(z) P_(j j)(z)$, and $P_(j j)(z) = 1 / (1 - F_(j j)(z))$, so
+    $ P_(i j)(z) = frac(F_(i j)(z), 1 - F_(j j)(z)). $
+    Since $j$ is recurrent, $F_(j j)(1) = 1$ and
+    $ 1 - F_(j j)(z) = sum_(n=1)^oo f_(j j)^((n)) (1 - z^n) = (1-z) sum_(n=1)^oo f_(j j)^((n)) sum_(k=0)^(n-1) z^k. $
+    Therefore $(1-z) / (1 - F_(j j)(z)) -> 1/μ_j$ as $z -> 1^-$, while $F_(i j)(z) -> f_(i j)$. The Hardy-Littlewood lemma converts the Abel limit $(1-z) P_(i j)(z) -> f_(i j) / μ_j$ into the asserted Cesàro limit.
+  ]
+  #thm[
+    If $i$ is recurrent of period $d = d(i)$, then $lim_(n -> oo) p_(i i)^((n d))$ exists and equals $d / μ_i$.
+  ]
+  #pf[
+    The Cesàro theorem gives $1/(N+1) sum_(k=0)^N p_(i i)^((k)) -> 1/μ_i$. The terms $p_(i i)^((k))$ vanish unless $d$ divides $k$. Taking $N = n d$ and using that $lim_n p_(i i)^((n d))$ exists for a recurrent state,
+    $ 1/(n d + 1) sum_(m=0)^n p_(i i)^((m d)) = (n+1)/(n d + 1) dot 1/(n+1) sum_(m=0)^n p_(i i)^((m d)). $
+    The left side tends to $1/μ_i$ and $(n+1)/(n d + 1) -> 1/d$, so the Cesàro means of $p_(i i)^((m d))$ tend to $d / μ_i$. A convergent sequence has the same limit as its Cesàro means.
+  ]
+  #cor[
+    - $i$ is transient if and only if $sum_n p_(i i)^((n)) < oo$;
+    - $i$ is null recurrent if and only if $sum_n p_(i i)^((n)) = oo$ and $p_(i i)^((n)) -> 0$;
+    - $i$ is positive recurrent if and only if $limsup_n p_(i i)^((n)) > 0$.
   ]
 ]
