@@ -155,7 +155,7 @@
     $ sum_(i, j = 1)^n a_(i j)(x) phi_(x_i) phi_(x_j) = 0. $
   ]
   #re[
-    To find characteristic surfaces, solve the first-order equation above for $phi$. When $n = 2$, along $phi = C$ one has $phi_x dif x + phi_y dif y = 0$, hence $dif y \/ dif x = - phi_x \/ phi_y$. Substituting the normal $(phi_x, phi_y)$ into the characteristic equation gives the ODE
+    To find characteristic surfaces, solve the first-order equation above for $phi$. When $n = 2$, along $phi = C$ one has $phi_x dif x + phi_y dif y = 0$, hence $(dif y) / (dif x) = - (phi_x) / (phi_y)$. Substituting the normal $(phi_x, phi_y)$ into the characteristic equation gives the ODE
     $ a_11 (dif y)^2 - 2 a_12 dif x dif y + a_22 (dif x)^2 = 0 $
     used to reduce the two-variable equation to canonical form. In two variables a characteristic surface is a characteristic curve.
   ]
@@ -195,9 +195,6 @@
     $ u(x, t) = frac(phi(x - a t) + phi(x + a t), 2) + frac(1, 2 a) integral_(x - a t)^(x + a t) psi(y) dif y. $
     The solution depends continuously on the initial data: if $norm(phi_1 - phi_2)_oo < epsilon$ and $norm(psi_1 - psi_2)_oo < epsilon$, then
     $ norm(u_1 (dot, t) - u_2 (dot, t))_oo <= epsilon (1 + t). $
-  ]
-  #pf[
-    The change $xi = x - a t$, $eta = x + a t$ reduces the equation to $u_(xi eta) = 0$, hence $u(x, t) = F(x - a t) + G(x + a t)$. The initial conditions give $F(x) + G(x) = phi(x)$ and $- a F'(x) + a G'(x) = psi(x)$. Integrating the second identity and solving for $F$ and $G$ produces the formula. Any classical solution is of this form, so the solution is unique. The stability bound follows by estimating each term, using that the $psi$-integral has length $2 a t$.
   ]
   #eg[
     For $u_(t t) - u_(x x) = 0$ with $phi(x) = 1 / (1 + x^2)$ and $psi = 0$,
@@ -239,14 +236,9 @@
   ]
   #thm(name: "Duhamel's Principle")[
     Let $w(x, t; tau)$ solve
-    $ w_(t t) - a^2 w_(x x) = 0 quad (t > tau), quad w(x, tau; tau) = 0, quad w_t (x, tau; tau) = f(x, tau). $
+    $ w_(t t) - a^2 w_(x x) = 0 quad (t > tau), quad w(x, tau) = 0, quad w_t (x, tau) = f(x, tau). $
     Then $u_2 (x, t) = integral_0^t w(x, t; tau) dif tau$ solves
     $ u_(t t) - a^2 u_(x x) = f(x, t), quad u(x, 0) = 0, quad u_t (x, 0) = 0. $
-  ]
-  #pf[
-    Differentiating under the integral, $u_2 (x, t) = integral_0^t w dif tau$ satisfies $partial_t u_2 = integral_0^t w_t dif tau$ because $w(x, t; t) = 0$, and
-    $ partial_(t t) u_2 = w_t (x, t; t) + integral_0^t w_(t t) dif tau = f(x, t) + a^2 partial_(x x) u_2. $
-    Both $u_2$ and $partial_t u_2$ vanish at $t = 0$.
   ]
   #re[
     The integrand $w(dot, t; tau) dif tau$ is the wave produced by an impulse $f(dot, tau) dif tau$ in the velocity at time $tau$.
@@ -263,68 +255,47 @@
     For $h$ on $RR^3$, the spherical mean on the sphere $|y - x| = r$ is
     $ overline(h)(x, r) = frac(1, 4 pi r^2) integral.double_(abs(y - x) = r) h(y) dif S_y = frac(1, 4 pi) integral.double_(abs(alpha) = 1) h(x + r alpha) dif omega. $
   ]
-  #lem(name: "Darboux Equation")[
-    If $h in C^2$, then
-    $ lr((partial_(r r) + frac(2, r) partial_r)) overline(h)(x, r) = Delta_x overline(h)(x, r), $
-    with $overline(h)(x, 0) = h(x)$ and $partial_r overline(h)(x, 0) = 0$. The even extension of $overline(h)$ in $r$ remains $C^2$.
-  ]
-  #pf[
-    Differentiating under the integral and applying the divergence theorem,
-    $ partial_r overline(h) = frac(1, 4 pi r^2) integral.triple_(abs(y - x) <= r) Delta h(y) dif y = frac(1, r^2) integral_0^r rho^2 Delta_x overline(h)(x, rho) dif rho. $
-    Multiplying by $r^2$ and differentiating in $r$ yields the Darboux equation. The conditions at $r = 0$ follow by direct inspection, using that $integral.double_(abs(alpha) = 1) alpha_i dif omega = 0$.
-  ]
   #thm(name: "Kirchhoff's Formula")[
     If $phi in C^3 (RR^3)$ and $psi in C^2 (RR^3)$, the Cauchy problem $u_(t t) - a^2 Delta u = 0$ in $RR^3$ has a unique $C^2$ solution
-    $ u(x, t) &= partial_t lr((t overline(phi)(x, a t))) + t overline(psi)(x, a t) \
-      &= partial_t lr((frac(1, 4 pi a^2 t) integral.double_(abs(y - x) = a t) phi(y) dif S_y)) + frac(1, 4 pi a^2 t) integral.double_(abs(y - x) = a t) psi(y) dif S_y. $
-  ]
-  #pf[
-    With $v = r overline(u)$ as above,
-    $ overline(u)(x, r, t) = frac((r + a t) overline(phi)(x, r + a t) + (r - a t) overline(phi)(x, r - a t), 2 r) + frac(1, 2 a r) integral_(r - a t)^(r + a t) y overline(psi)(x, y) dif y, $
-    using the even extension in $r$. The first summand tends to $partial_t (t overline(phi)(x, a t))$ as $r -> 0$. In the second, the integrand $y overline(psi)$ is odd, so the integral over the symmetric interval about the origin vanishes and the remainder tends to $t overline(psi)(x, a t)$. Uniqueness follows because every $C^2$ solution arises in this way.
-  ]
-  #eg[
-    For $phi(x) = x_1^2 + x_2^2 + x_3^2$ and $psi(x) = x_1 x_2$, the radial problem for the first datum and the spherical mean of the second give
-    $ u(x, t) = x_1^2 + x_2^2 + x_3^2 + 3 a^2 t^2 + x_1 x_2 t. $
-  ]
-  #re[
-    Writing $S(t) psi := t overline(psi)(x, a t)$ for the solution with vanishing displacement, Kirchhoff's formula is $u = partial_t (S(t) phi) + S(t) psi$. Differentiating the spherical integral produces the equivalent form
-    $ u(x, t) = frac(1, 4 pi a^2 t^2) integral.double_(abs(y - x) = a t) lr((phi(y) + nabla phi(y) dot (y - x) + t psi(y))) dif S_y. $
-    The value $u(x, t)$ depends on the data on the sphere $|y - x| = a t$. The domain of influence of a point $(x, 0)$ is the characteristic cone $|y - x| = a tau$ for $tau > 0$.
-  ]
-  #re[
-    In $RR^n$ the spherical mean is $overline(h)(x, r) = 1 / omega_n integral.double_(abs(alpha) = 1) h(x + r alpha) dif omega$, with surface area $omega_n = n pi^(n / 2) / Gamma(n / 2 + 1)$. It satisfies the Darboux equation
-    $ lr((partial_(r r) + frac(n - 1, r) partial_r)) overline(h) = Delta_x overline(h), $
-    and $overline(u)$ solves the Euler--Poisson--Darboux equation
-    $ overline(u)_(t t) - a^2 lr((overline(u)_(r r) + frac(n - 1, r) overline(u)_r)) = 0. $
-    Equivalently, $(r overline(u))_(t t) - a^2 (r overline(u))_(r r) = (n - 3) partial_r overline(u)$. For $n = 3$ the right-hand side vanishes.     For odd $n > 3$ repeated application of $r^2 partial_r$ reduces the equation to the one-dimensional wave equation. For $n = 5$ the combination $w = r^2 partial_r overline(u) + 3 r overline(u)$ satisfies $w_(t t) - a^2 w_(r r) = 0$, and $u(x, t) = lim_(r -> 0) w / (3 r)$. For $n = 2$ the reduction is not available, and one uses descent instead.
+    $ u(x, t) &= partial/(partial t) lr((t overline(phi)(x, a t))) + t overline(psi)(x, a t) \
+      &= partial/(partial t) lr((frac(1, 4 pi a^2 t) integral.double_(abs(y - x) = a t) phi(y) dif S)) + frac(1, 4 pi a^2 t) integral.double_(abs(y - x) = a t) psi(y) dif S \
+      &=frac(1, 4 pi a^2 t^2) integral.double_(abs(y - x) = a t) lr((phi(y) + nabla phi(y) dot (y - x) + t psi(y))) dif S. $
+    In polar coordinates,
+    $ u(x, t)
+      &= partial/(partial t) lr((frac(t, 4 pi) integral_0^(2 pi) integral_0^pi phi(x_1 + a t sin theta cos phi, x_2 + a t sin theta sin phi, x_3 + a t cos theta) sin theta dif theta dif phi)) \
+      &wide + frac(t, 4 pi) integral_0^(2 pi) integral_0^pi psi(x_1 + a t sin theta cos phi, x_2 + a t sin theta sin phi, x_3 + a t cos theta) sin theta dif theta dif phi. $
   ]
   #thm(name: "Poisson's Formula")[
     If $phi in C^3 (RR^2)$ and $psi in C^2 (RR^2)$, the Cauchy problem in $RR^2$ has a unique $C^2$ solution
-    $ u(x, t) = frac(1, 2 pi a) partial_t integral.double_(abs(y - x) <= a t) frac(phi(y), sqrt(a^2 t^2 - abs(y - x)^2)) dif y \
-      + frac(1, 2 pi a) integral.double_(abs(y - x) <= a t) frac(psi(y), sqrt(a^2 t^2 - abs(y - x)^2)) dif y. $
+    $ u(x, t) &= frac(1, 2 pi a) partial/(partial t) integral.double_(abs(y - x) <= a t) frac(phi(y), sqrt(a^2 t^2 - abs(y - x)^2)) dif y \
+      &wide + frac(1, 2 pi a) integral.double_(abs(y - x) <= a t) frac(psi(y), sqrt(a^2 t^2 - abs(y - x)^2)) dif y. $
+    In polar coordinates,
+    $ u(x_1, x_2, t)
+      &= frac(1, 2 pi a) partial/(partial t) integral_0^(a t) integral_0^(2 pi) frac(phi(x_1 + r cos theta, x_2 + r sin theta), sqrt(a^2 t^2 - r^2)) r dif theta dif r \
+      &wide + frac(1, 2 pi a) integral_0^(a t) integral_0^(2 pi) frac(psi(x_1 + r cos theta, x_2 + r sin theta), sqrt(a^2 t^2 - r^2)) r dif theta dif r. $
   ]
-  #pf[
-    On $|y - x| = a t$ one has $y_3 - x_3 = plus.minus sqrt(a^2 t^2 - abs(y' - x)^2)$. The two hemispheres contribute
-    $ integral.double_(abs(y - x) = a t) phi(y_1, y_2) dif S_y = 2 a t integral.double_(abs(y - x) <= a t) frac(phi(y), sqrt(a^2 t^2 - abs(y - x)^2)) dif y. $
-    Substituting into Kirchhoff's formula yields the stated coefficients. The integrals do not depend on $x_3$.
+  #re[
+    On the disk $|y - x| <= R$ in $RR^2$, write $y = x + r (cos theta, sin theta)$ and $R = a t$. The angular integrals are
+    $ integral_0^(2 pi) dif theta = 2 pi, quad integral_0^(2 pi) cos theta dif theta = integral_0^(2 pi) sin theta dif theta = integral_0^(2 pi) cos theta sin theta dif theta = 0, $
+    $ integral_0^(2 pi) cos^2 theta dif theta = integral_0^(2 pi) sin^2 theta dif theta = pi. $
+    The substitution $r = R sin beta$ gives
+    $ integral_0^R frac(r^(2 k + 1), sqrt(R^2 - r^2)) dif r = R^(2 k + 1) integral_0^(pi / 2) sin^(2 k + 1) beta dif beta = ((2k)!!)/((2k+1)!!) R^(2k+1), $
+    in particular
+    $ integral_0^R frac(r, sqrt(R^2 - r^2)) dif r = R, quad integral_0^R frac(r^3, sqrt(R^2 - r^2)) dif r = frac(2, 3) R^3, quad integral_0^R frac(r^5, sqrt(R^2 - r^2)) dif r = frac(8, 15) R^5. $
+  ]
+  #re[
+    If $phi$ and $psi$ are polynomials, or more generally if $Delta^m phi = Delta^m psi = 0$ for some $m$, both Kirchhoff's and Poisson's formula collapse to the finite sum
+    $ u(x, t) = sum_(k = 0)^oo lr(( frac((a t)^(2 k), (2 k)!) Delta^k phi(x) + frac(a^(2 k) t^(2 k + 1), (2 k + 1)!) Delta^k psi(x) )). $
+    The same series solves $u_(t t) - a^2 Delta u = 0$ in every dimension. In particular, when $deg phi, deg psi <= 3$, there is $ u = phi + t psi + frac(a^2 t^2, 2) Delta phi + frac(a^2 t^3, 6) Delta psi. $
   ]
   #thm(name: "Decay")[
     Let $n = 3$, and suppose $phi in C_0^1 (RR^3)$ and $psi in C_0 (RR^3)$ vanish outside $overline(B)(0, rho)$ and are bounded together with $nabla phi$. Then $abs(u(x, t)) <= C t^(-1)$ for $t >= 1$, uniformly in $x$. In general,
     $ abs(u(x, t)) <= C (1 + t)^(-(n - 1) / 2). $
-  ]
-  #pf[
-    On the sphere $|y - x| = a t$ the integrand of the rewritten Kirchhoff formula is supported in a set of area at most $4 pi rho^2$. The factors $phi$ and $nabla phi dot (y - x)$ contribute $O(1)$ and $O(t)$, which together with the prefactor $1 / t^2$ yield $O(t^(-1))$.
   ]
   #thm(name: "Retarded Potentials")[
     In three dimensions,
     $ u_2 (x, t) = frac(1, 4 pi a^2) integral.triple_(abs(y - x) <= a t) frac(f(y, t - abs(y - x) / a), abs(y - x)) dif y. $
     In two dimensions,
     $ u_2 (x, t) = frac(1, 2 pi a) integral_0^t integral.double_(abs(y - x) <= a (t - tau)) frac(f(y, tau), sqrt(a^2 (t - tau)^2 - abs(y - x)^2)) dif y dif tau. $
-  ]
-  #pf[
-    For $n = 3$, Kirchhoff's formula for $w$ is
-    $ w(x, t; tau) = frac(1, 4 pi a^2 (t - tau)) integral.double_(abs(y - x) = a (t - tau)) f(y, tau) dif S_y. $
-    Integrating in $tau$ and substituting $r = a (t - tau)$ converts the integral over spherical shells into the retarded volume potential. The two-dimensional identity is Poisson's formula integrated in $tau$.
   ]
 ]
